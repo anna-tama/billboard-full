@@ -8,6 +8,14 @@ const connectDB = require('./config/db');
 // Inicializar la aplicación
 const app = express();
 
+// Configuración CORS para desarrollo
+const corsOptions = {
+  origin: 'http://localhost:4200', // Puerto de Angular
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
+
 // Conectar a la base de datos
 connectDB();
 
@@ -39,6 +47,11 @@ app.use((err, req, res, next) => {
 // Puerto del servidor
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => 
+app.listen(PORT, () =>
   console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`)
 );
+
+
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'Conexión exitosa!' });
+});
